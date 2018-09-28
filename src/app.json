@@ -1,0 +1,36 @@
+{
+  "pages": [
+    "pages/index/main",
+    "pages/personal/main",
+    "pages/community/main"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#FF1111",
+    "navigationBarTitleText": "看点",
+    "navigationBarTextStyle": "#FFFFFF"
+  },
+  "tabBar": {
+    "position": "bottom",
+    "color": "#AEAEBD",
+    "selectedColor": "#FF1111",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "#E1E1E6",
+    "list": [{
+      "pagePath": "pages/index/main",
+      "text": "首页",
+      "iconPath": "/static/tabBar/home.png",
+      "selectedIconPath": "/static/tabBar/home-select.png"
+    },{
+      "pagePath": "pages/community/main",
+      "text": "社区",
+      "iconPath": "/static/tabBar/community.png",
+      "selectedIconPath": "/static/tabBar/community-select.png"
+    },{
+      "pagePath": "pages/personal/main",
+      "text": "我的",
+      "iconPath": "/static/tabBar/me.png",
+      "selectedIconPath": "/static/tabBar/me-select.png"
+    }]
+  }
+}
