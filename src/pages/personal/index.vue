@@ -1,12 +1,13 @@
 <template>
   <div>
-    <div class="no-login" v-if="!userInfo.avatarUrl">
+    <div class="header-wrap">
+      <img class="userinfo-avatar"
+           v-if="userInfo.avatarUrl"
+           :src="userInfo.avatarUrl" background-size="cover" />
       <button open-type="getUserInfo"
+              v-else
               class="login-btn"
               @getuserinfo="onGetUserInfo">请先登录</button>
-    </div>
-    <div class="header-wrap">
-      <img class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover" />
       <p class="userinfo-nickname">{{ userInfo.nickName }}</p>
     </div>
   </div>
@@ -19,6 +20,19 @@ export default {
     return {
       userInfo: {}
     }
+  },
+  onShow () {
+    console.log('is show')
+    const that = this
+    // wx.login({
+    //   success: () => {
+    //     wx.getUserInfo({
+    //       success: (res) => {
+    //         that.userInfo = res.userInfo
+    //       }
+    //     })
+    //   }
+    // })
   },
   methods: {
     onGetUserInfo (e) {
@@ -42,25 +56,29 @@ export default {
     justify-content: center;
   }
   .login-btn {
-    width: 20vw;
-    padding: 5px 10px;
     color: white;
     font-size: 32px;
     text-align: center;
-    background-color: #FF1111;
+    background-color: rgba(0, 0, 0, 0);
   }
   .header-wrap {
     width: 100%;
     background-color: #FF1111;
     height: 35vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
   .userinfo-nickname {
     color: white;
+    margin: 0 auto;
   }
   .userinfo-avatar {
-    width: 128rpx;
-    height: 128rpx;
-    margin: 20rpx;
+    margin: 0 auto;
+    width: 128px;
+    height: 128px;
+    margin: 20px;
     border-radius: 50%;
   }
 </style>
