@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="header-wrap">
-      <img class="userinfo-avatar"
-           v-if="userInfo.avatarUrl"
-           :src="userInfo.avatarUrl" background-size="cover" />
+        <img class="userinfo-avatar"
+             v-if="userInfo.avatarUrl"
+             :src="userInfo.avatarUrl" background-size="cover" />
       <button open-type="getUserInfo"
               v-else
               class="login-btn"
@@ -14,6 +14,7 @@
 </template>
 
 <script>
+  import ssoLogin from '../../utils/ssoLogin'
 export default {
 
   data () {
@@ -21,25 +22,44 @@ export default {
       userInfo: {}
     }
   },
+  computed: {
+    hasLogin () {
+      return this.$store.state.hasLogin
+    },
+    token () {
+      return this.$store.state.token
+    }
+  },
   onShow () {
-    console.log('is show')
     const that = this
-    // wx.login({
-    //   success: () => {
-    //     wx.getUserInfo({
-    //       success: (res) => {
-    //         that.userInfo = res.userInfo
-    //       }
-    //     })
-    //   }
-    // })
+    if (this.hasLogin) {
+      wx.getUserInfo({
+        success: (res) => {
+          that.userInfo = res.userInfo
+        }
+      })
+    }
   },
   methods: {
     onGetUserInfo (e) {
-      console.log(e.mp)
+      const that = this
       if (e.mp && e.mp.detail.userInfo) {
         this.userInfo = e.mp.detail.userInfo
-        console.log('获取成功')
+        ssoLogin()
+          .then(res => {
+            if (res.status) {
+              wx.showToast({
+                title: '登录成功'
+              })
+              that.$store.commit('setState', {
+                hasLogin: true,
+                token: res.info.token
+              })
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
       }
     }
   }
