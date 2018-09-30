@@ -1,24 +1,9 @@
 <template>
-  <div class="container" @click="clickHandle('test click', $event)">
-
-    <div class="userinfo" @click="bindViewTap">
-      <img class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover" />
-      <div class="userinfo-nickname">
-        <card :text="userInfo.nickName"></card>
-      </div>
+  <div class="container">
+    <h1>资讯列表</h1>
+    <div v-for="(item, index) in list">
+      <card :data="item" :key="index"></card>
     </div>
-
-    <div class="usermotto">
-      <div class="user-motto">
-        <card :text="motto"></card>
-      </div>
-    </div>
-
-    <form class="form-container">
-      <input type="text" class="form-control" v-model="motto" placeholder="v-model" />
-      <input type="text" class="form-control" v-model.lazy="motto" placeholder="v-model.lazy" />
-    </form>
-    <a href="/pages/counter/main" class="counter">去往Vuex示例页面</a>
   </div>
 </template>
 
@@ -28,78 +13,55 @@ import card from '@/components/card'
 export default {
   data () {
     return {
-      motto: 'Hello World',
-      userInfo: {}
+      list: []
     }
   },
 
   components: {
     card
   },
-
-  methods: {
-    bindViewTap () {
-      const url = '../personal/main'
-      wx.switchTab({ url })
-    },
-    getUserInfo () {
-      // 调用登录接口
-      wx.login({
-        success: () => {
-          wx.getUserInfo({
-            success: (res) => {
-              this.userInfo = res.userInfo
-            }
-          })
-        }
-      })
-    },
-    clickHandle (msg, ev) {
-      console.log('clickHandle:', msg, ev)
+  onLoad () {
+    for (let i = 0; i < 15; i++) {
+      this.list.push(this.mockData())
     }
   },
-
-  created () {
-    // 调用应用实例的方法获取全局数据
-    this.getUserInfo()
+  onPullDownRefresh () {
+    wx.showNavigationBarLoading()
+    setTimeout(() => {
+      this.list = []
+        for (let i = 0; i < 15; i++) {
+          this.list.push(this.mockData())
+        }
+        wx.stopPullDownRefresh({})
+        wx.hideNavigationBarLoading()
+      },
+      1000)
+  },
+  onReachBottom () {
+    for (let i = 0; i < 15; i++) {
+      this.list.push(this.mockData())
+    }
+  },
+  methods: {
+    mockData () {
+      return {
+        id: Math.random(),
+        img: 'https://oola-oss.oss-cn-shenzhen.aliyuncs.com/oola-oss/imgs/20180921/20180921180535824Ecj.jpg',
+        title: '你黯淡无光的旧物，却是山区留守儿童的一抹色彩',
+        date: '2018-10-01',
+        readNum: Math.floor(Math.random() * 1000),
+        region: Math.floor(Math.random() * 11232341215)
+      }
+    }
   }
 }
 </script>
-
 <style scoped>
-.userinfo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.userinfo-avatar {
-  width: 128rpx;
-  height: 128rpx;
-  margin: 20rpx;
-  border-radius: 50%;
-}
-
-.userinfo-nickname {
-  color: #aaa;
-}
-
-.usermotto {
-  margin-top: 150px;
-}
-
-.form-control {
-  display: block;
-  padding: 0 12px;
-  margin-bottom: 5px;
-  border: 1px solid #ccc;
-}
-
-.counter {
-  display: inline-block;
-  margin: 10px auto;
-  padding: 5px 10px;
-  color: blue;
-  border: 1px solid blue;
-}
+  h1 {
+    color: #0099FF;
+    font-size: 34px;
+    text-align: center;
+    margin-top: 24px;
+    padding: 8px;
+  }
 </style>

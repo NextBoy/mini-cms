@@ -8,7 +8,8 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     hasLogin: false,
-    token: ''
+    token: '',
+    userInfo: {}
   },
   mutations: {
     setState (state, payload) {

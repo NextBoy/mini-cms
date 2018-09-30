@@ -5,9 +5,6 @@
       ssoLogin()
         .then(res => {
           if (res.status) {
-            wx.showToast({
-              title: '登录成功'
-            })
             this.$store.commit('setState', {
               hasLogin: true,
               token: res.info.token
@@ -20,3 +17,8 @@
     }
   }
 </script>
+<style>
+  body {
+    font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+  }
+</style>

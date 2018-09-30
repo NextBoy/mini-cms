@@ -7,10 +7,11 @@ export default function () {
             success (res) {
               const code = res.code
               wx.request({
-                url: 'http://127.0.0.1:3000/api/users/wxLogin',
+                url: 'http://192.168.0.166:3000/api/users/wxLogin',
                 data: {code},
                 method: 'POST',
                 success (res) {
+                  console.log(res)
                   resolve(res.data)
                 },
                 fail (res) {
@@ -22,8 +23,6 @@ export default function () {
               reject(res)
             }
           })
-        } else {
-          wx.showToast({title: '用户未授权'})
         }
       }
     })
